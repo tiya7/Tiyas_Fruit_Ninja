@@ -3,6 +3,21 @@
 A touchless Fruit Ninja clone powered by MediaPipe hand tracking and OpenCV.  
 Slice fruit with your **index finger** — no mouse, no keyboard, just your webcam.
 
+This project includes:
+- A **local Python-based webcam game**
+- A **website (`index.html`)** where people can explore the game and learn how to run it
+
+---
+
+## Project Website (Entry Point)
+
+The file **`index.html`** is the public-facing entry point for this project.  
+It showcases the Fruit Ninja game, features, controls, and setup instructions.
+
+After enabling GitHub Pages, users can access the project website directly from their browser.
+
+> Note: The actual game requires Python and webcam access and must be run locally.
+
 ---
 
 ## Quick Setup (Windows — VS Code / PowerShell)
@@ -18,75 +33,56 @@ pip install --upgrade pip
 # 3. Install dependencies
 pip install -r requirements.txt
 
-# 4. Run the game (MUST use -m flag for relative imports)
-python -m src.main
-```
+# 4. Run the game (recommended)
+python -m tiya.main
 
-> **Important:** always run as `python -m src.main`, not `python src/main.py`.
+Important: always run the game as
+python -m tiya.main
 
----
+Do not run individual files directly.
 
-## Requirements (fixed)
-
-```
+Requirements (fixed)
 mediapipe==0.10.32
 opencv-python==4.10.0.84
 numpy
-```
 
-The original `requirements.txt` pinned `mediapipe==0.10.14` (doesn't exist)
-and `numpy==1.26.4` (requires a C compiler on Windows). Both are fixed here.
+These versions are tested and stable on Windows.
 
----
-
-## Controls
-
-| Key | Action |
-|-----|--------|
-| Move index finger fast | Slice fruit |
-| `Q` / `Esc` | Quit |
-| `R` | Restart after Game Over |
-
----
-
-## Project Structure
-
-```
+Controls
+Input	Action
+Move index finger fast	Slice fruit
+Q 	Quit
+R	Restart after Game Over
+Project Structure
 .
+├── index.html           # Project website (GitHub Pages entry point)
 ├── assets/              # Auto-generated PNG sprites (created on first run)
 ├── requirements.txt
 ├── README.md
-└── src/
+└── tiya/
     ├── __init__.py
     ├── config.py        # Tunable gameplay constants
     ├── asset_utils.py   # Procedural sprite generator & loader
-    ├── game_objects.py  # Fruit/bomb dataclasses, physics, spawn helpers
-    ├── hand_tracker.py  # MediaPipe wrapper (compatible with 0.10.32)
+    ├── game_objects.py  # Fruit & bomb logic, physics, spawning
+    ├── hand_tracker.py  # MediaPipe hand tracking wrapper
     ├── ui_overlay.py    # HUD, trail, particles, game-over screen
     └── main.py          # Game loop
-```
+Troubleshooting
+Problem	Fix
+Webcam not found	Change CAMERA_INDEX in tiya/config.py (try 0, 1, 2)
+Slow / laggy	Lower camera resolution in config.py
+Hand not detected	Improve lighting and keep full hand visible
+Import errors	Run from project root using python -m tiya.main
+Gameplay Tips
 
----
+Bright, even lighting improves hand detection.
 
-## Troubleshooting
+Fast, confident swipes trigger slicing.
 
-| Problem | Fix |
-|---------|-----|
-| Webcam not found | Change `CAMERA_INDEX` in `src/config.py` (try 0, 1, 2) |
-| Slow / laggy | Lower `CAMERA_WIDTH/HEIGHT` in `src/config.py` |
-| Hand not detected | Better lighting; make sure full hand is in frame |
-| `ModuleNotFoundError` | Run as `python -m src.main` from the project root |
+Slicing a bomb ends the game instantly.
 
----
+Chain slices within ~1 second for combo multipliers.
 
-## Gameplay Tips
+You start with 3 lives — each missed fruit costs one.
 
-- Bright, even front-lighting helps MediaPipe see your hand clearly.
-- Fast, decisive slicing motions trigger the slice — slow drags don't.
-- Hitting a bomb ends the game instantly — dodge them!
-- Chain slices within ~1 second to trigger combo multipliers.
-- You have 3 lives; each fruit that falls off-screen costs one.
-
----
-
-Built with ❤️ by **tubakhxn** · Fixed & extended for mediapipe 0.10.32+
+Built with ❤️ by Tiya · Fixed & extended for MediaPipe 0.10.32+
