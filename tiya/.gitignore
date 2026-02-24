@@ -1,0 +1,7 @@
+.venv/
+assets/hand_landmarker.task
+assets/.asset_version
+__pycache__/
+*.pyc
+*.pyo
+.DS_Store
