@@ -1,88 +1,118 @@
-# Webcam Fruit Ninja
+# 🍉 Tiya's Fruit Ninja — Webcam Edition
 
-A touchless Fruit Ninja clone powered by MediaPipe hand tracking and OpenCV.  
-Slice fruit with your **index finger** — no mouse, no keyboard, just your webcam.
+A touchless Fruit Ninja clone powered by **MediaPipe AI hand tracking** and **OpenCV**.  
+Slice fruit with your **index finger** — no mouse, no controller, just your webcam.
 
-This project includes:
-- A **local Python-based webcam game**
-- A **website (`index.html`)** where people can explore the game and learn how to run it
-
----
-
-## Project Website (Entry Point)
-
-The file **`index.html`** is the public-facing entry point for this project.  
-It showcases the Fruit Ninja game, features, controls, and setup instructions.
-
-After enabling GitHub Pages, users can access the project website directly from their browser.
-
-> Note: The actual game requires Python and webcam access and must be run locally.
+🌐 **Live Website:** [tiya7.github.io/Tiyas_Fruit_Ninja](https://tiya7.github.io/Tiyas_Fruit_Ninja)  
+📁 **GitHub:** [github.com/tiya7/Tiyas_Fruit_Ninja](https://github.com/tiya7/Tiyas_Fruit_Ninja)
 
 ---
 
 ## Quick Setup (Windows — VS Code / PowerShell)
 
 ```powershell
-# 1. Create & activate a virtual environment
+# 1. Clone the repo
+git clone https://github.com/tiya7/Tiyas_Fruit_Ninja.git
+cd Tiyas_Fruit_Ninja
+
+# 2. Create & activate a virtual environment
 py -3 -m venv .venv
 .venv\Scripts\Activate.ps1
 
-# 2. Upgrade pip (important!)
-pip install --upgrade pip
-
 # 3. Install dependencies
-pip install -r requirements.txt
+pip install mediapipe==0.10.32 opencv-python numpy
 
-# 4. Run the game (recommended)
+# 4. Run the game
 python -m tiya.main
+```
 
-Important: always run the game as
+> **Important:** always run as `python -m tiya.main`, not `python tiya/main.py`.  
+> On first run the AI hand tracking model (~8 MB) downloads automatically — one time only.
+
+---
+
+## Every Time After First Setup
+
+Only 3 commands needed:
+```powershell
+cd Tiyas_Fruit_Ninja
+.venv\Scripts\Activate.ps1
 python -m tiya.main
+```
 
-Do not run individual files directly.
+---
 
-Requirements (fixed)
-mediapipe==0.10.32
-opencv-python==4.10.0.84
-numpy
+## Controls
 
-These versions are tested and stable on Windows.
+| Action | Key |
+|--------|-----|
+| Slice fruit | Move **index finger** over it |
+| Quit | `Q` or `Esc` |
+| Restart after Game Over | `R` |
 
-Controls
-Input	Action
-Move index finger fast	Slice fruit
-Q 	Quit
-R	Restart after Game Over
-Project Structure
-.
-├── index.html           # Project website (GitHub Pages entry point)
-├── assets/              # Auto-generated PNG sprites (created on first run)
+---
+
+## Gameplay Features
+
+- 🍉 **15 vibrant fruits** — watermelon, banana, orange, apple, pineapple, grapes, strawberry, peach, cherries, mango, kiwi, pear, lemon, melon, blueberries
+- 💣 **Bombs** — slice one and it's instant game over
+- ⚡ **Combo system** — chain slices within 1 second for multipliers
+- 🏆 **High score tracker** — your personal best shown live on screen with "New Record!" celebration
+- 💚 **Finger dot feedback** — green dot shows exactly where the game sees your finger
+- 🎨 **Photorealistic sprites** — hand-crafted with specular highlights, rim lighting, and skin texture
+
+---
+
+## Project Structure
+
+```
+Tiyas_Fruit_Ninja/
+├── index.html           # Landing website (GitHub Pages)
 ├── requirements.txt
 ├── README.md
 └── tiya/
     ├── __init__.py
-    ├── config.py        # Tunable gameplay constants
-    ├── asset_utils.py   # Procedural sprite generator & loader
-    ├── game_objects.py  # Fruit & bomb logic, physics, spawning
-    ├── hand_tracker.py  # MediaPipe hand tracking wrapper
-    ├── ui_overlay.py    # HUD, trail, particles, game-over screen
-    └── main.py          # Game loop
-Troubleshooting
-Problem	Fix
-Webcam not found	Change CAMERA_INDEX in tiya/config.py (try 0, 1, 2)
-Slow / laggy	Lower camera resolution in config.py
-Hand not detected	Improve lighting and keep full hand visible
-Import errors	Run from project root using python -m tiya.main
-Gameplay Tips
+    ├── config.py        # All tunable gameplay constants
+    ├── asset_utils.py   # Procedural sprite generator (parallel, cached)
+    ├── game_objects.py  # Fruit/bomb physics, spawn helpers, hit detection
+    ├── hand_tracker.py  # MediaPipe Tasks API wrapper (0.10.32 compatible)
+    ├── ui_overlay.py    # HUD, blade trail, particles, game-over screen
+    └── main.py          # Game loop + loading screen
+```
 
-Bright, even lighting improves hand detection.
+---
 
-Fast, confident swipes trigger slicing.
+## Troubleshooting
 
-Slicing a bomb ends the game instantly.
+| Problem | Fix |
+|---------|-----|
+| Webcam not found | Change `CAMERA_INDEX` in `tiya/config.py` (try 0, 1, 2) |
+| Slow / laggy | Lower `CAMERA_WIDTH/HEIGHT` in `tiya/config.py` |
+| Hand not detected | Improve lighting; ensure full hand is visible in frame |
+| `ModuleNotFoundError` | Run as `python -m tiya.main` from the project root |
+| Model download fails | Requires internet on first run only |
 
-Chain slices within ~1 second for combo multipliers.
+---
 
-You start with 3 lives — each missed fruit costs one.
+## Gameplay Tips
 
-Built with ❤️ by Tiya · Fixed & extended for MediaPipe 0.10.32+
+- Bright, even front-lighting helps MediaPipe detect your hand clearly
+- Watch the **green dot** — that's exactly where the game thinks your finger is
+- Any deliberate movement over a fruit slices it — no fast swipe needed
+- Avoid the **black bomb** at all costs — it ends the game instantly
+- You have **3 lives** — each fruit that falls off-screen costs one
+- Chain slices quickly to trigger **COMBO** bonuses
+
+---
+
+## Requirements
+
+```
+mediapipe==0.10.32
+opencv-python
+numpy
+```
+
+---
+
+Built with 💚 by **Tiya** · Powered by MediaPipe + OpenCV
